@@ -14,6 +14,17 @@ class Login extends Component {
   handleSubmit = e => {
     e.preventDefault();
     const { email, password } = this.state;
+    axios.post('/auth/login', {
+      email,
+      password
+    })
+    .then(res => {
+      if (res.status === 200) {
+        const token = res.data.payload;
+        setToken(token);
+        this.props.getCurrentUser();
+      }
+    })
     // 1. POST to /auth/login, passing in the email and password in the body
     // 2. If we receive a successful response:
     //  - grab the token from the response

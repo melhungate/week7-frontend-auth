@@ -1,6 +1,7 @@
 import React, { Component } from "react";
+import axios from 'axios';
 
-class Login extends Component {
+class Signup extends Component {
   state = {
     email: "",
     password: ""
@@ -10,7 +11,18 @@ class Login extends Component {
   };
   handleSubmit = e => {
     e.preventDefault();
+    const { email, password } = this.state
+    axios
+      .post('/auth/signup', { email, password })
+      .then(res => {
+        if (res.status === 200) {
+          const user = res.data.payload;
+          this.props.setUser(user);
+          console.log(res)
+        }
+      })
     console.log("submitted!");
+
   };
   render() {
     return (
@@ -43,4 +55,4 @@ class Login extends Component {
   }
 }
 
-export default Login;
+export default Signup;
